@@ -12,6 +12,7 @@ makedocs(;
         "Library" => "lib/lib.md"
         "Quantum 1+1D" => "quantum_1D.md"
         "CFT Data" => "cft.md"
+        "Thermal PEPO CFT" => "thermal_cft.md"
         "Finalizers" => "finalizers.md"
         "References" => "references.md"
     ],

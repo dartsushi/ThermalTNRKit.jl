@@ -74,6 +74,33 @@ This project is under active development. The interface is subject to changes. A
 
 # Quick Start Guide
 
+## Thermal PEPO workflow
+
+This checkout adds `thermal_cft` for the Ising, XXZ and spinless-fermion PEPOs
+used in ThermalPEPOKit. The Julia module remains `TNRKit`; select this local
+fork with `Pkg.develop(path="ThermalTNRKit.jl")` from the parent project before
+loading it.
+
+```julia
+using TNRKit, TensorKit
+
+# O is one PEPO layer exp(-0.05H), with virtual order (W, N, E, S).
+beta_list = 0.0:0.05:4.0      # evolution starts from the identity at beta=0
+beta_pivot = 2.0:0.2:4.0     # run LoopTNR only at these beta points
+rows = thermal_cft(O, beta_list, beta_pivot;
+    χ_τ=12, χ_tnr=16, maxrg=8, max_loop=12)
+
+c = [real(row.cft_history[5].central_charge) for row in rows]  # RG step 4
+valid = [row.cft_valid[5] for row in rows]
+```
+
+Fermionic traces are detected automatically. Each row retains the full CFT
+history, fit validity and normalization factors. See the
+[thermal workflow guide](docs/src/thermal_cft.md) for beta semantics, native
+TNRKit tensors, free energies and the mutating `run!` interface.
+
+## General tensor-network workflow
+
 1. Choose a (TensorKit!) tensor that respects the leg-convention (see below)
 2. Choose a TNR scheme
 3. Choose a truncation scheme

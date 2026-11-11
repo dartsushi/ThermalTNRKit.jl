@@ -157,4 +157,7 @@ export block_tensors
 
 include("utility/network_value.jl")
 
+include("thermal_cft.jl")
+export thermal_cft, pepo_to_2d
+
 end
