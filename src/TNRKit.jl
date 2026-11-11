@@ -4,6 +4,7 @@ using TensorKitSectors
 using MatrixAlgebraKit
 using MatrixAlgebraKit: TruncationStrategy
 using LoggingExtras, Printf
+import ProgressMeter
 using KrylovKit
 using OptimKit, Zygote
 using DocStringExtensions

@@ -45,6 +45,11 @@ floating-point rounding. Missing or ambiguous pivots, duplicate observations
 and a nonuniform evolution grid are rejected before evolution begins. Results
 follow `beta_pivot` order, even if those points were supplied out of order.
 
+Pass `progress=true` to display a ProgressMeter bar over the beta loop,
+including evolution points without CFT measurements. The default is
+`progress=false`. `quiet` and `verbosity` control solver warnings and TNRKit
+logging separately.
+
 For an Ising or XXZ PEPO constructed by ThermalPEPOKit, pass its tensor as `O`.
 For a spinless-fermion PEPO, use the same call without extra trace options:
 

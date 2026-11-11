@@ -181,6 +181,7 @@ Return one named tuple per pivot, in **beta_pivot order**, with fields:
 - `is_fermion=nothing`: automatic physical trace convention; a Bool overrides it.
 - `shape=[sqrt(2), 2sqrt(2), 0]`, `fast_tau_alg=true`: CFT extraction geometry/fit.
 - `beta_atol=1e-12`, `beta_rtol=1e-10`: grid and pivot matching tolerances.
+- `progress=false`: set `true` to show a ProgressMeter bar over all points in `beta_list`.
 - `quiet=false`, `verbosity=0`: optionally silence failed-fit warnings, which
   are still reflected in `cft_valid`, and control TNRKit progress logging.
 
@@ -207,7 +208,7 @@ function run!(
         virtual_order::Symbol = :WNES, is_fermion::Union{Nothing, Bool} = nothing,
         shape = [sqrt(2), 2 * sqrt(2), 0], fast_tau_alg::Bool = true,
         beta_atol::Real = 1.0e-12, beta_rtol::Real = 1.0e-10,
-        quiet::Bool = false, verbosity::Int = 0
+        progress::Bool = false, quiet::Bool = false, verbosity::Int = 0
     )
     size(scheme.T) == (1, 1) || throw(ArgumentError("thermal_cft supports a 1x1 PEPO unit cell"))
     _check_thermal_order(virtual_order)
@@ -223,7 +224,7 @@ function run!(
     result = Vector{NamedTuple}(undef, length(indices))
     observation = Dict(index => position for (position, index) in enumerate(indices))
     norms_τ = Float64[]
-    for (i, beta) in enumerate(beta_list)
+    ProgressMeter.@showprogress enabled = progress desc = "β evolution: " for (i, beta) in enumerate(beta_list)
         depth = i - offset
         if depth == 0
             scheme.T = TNO(_thermal_identity(fixed_layer[1, 1]))
